@@ -34,6 +34,9 @@
         <mapstruct.version>1.2.0.Final</mapstruct.version>
         <pact.version>3.5.18</pact.version>
         <pact.scala.version>2.12</pact.scala.version>
+
+        <pact.broker.host>localhost</pact.broker.host>
+        <pact.broker.port>80</pact.broker.port>
     </properties>
 
     <dependencies>
@@ -133,8 +136,19 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <pactBrokerUrl>http://localhost</pactBrokerUrl>
+                    <pactBrokerUrl>http://${pact.broker.host}:${pact.broker.port}</pactBrokerUrl>
                     <pactDirectory>target/pacts</pactDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <systemPropertyVariables>
+                        <pactbroker.host>${pact.broker.host}</pactbroker.host>
+                        <pactbroker.port>${pact.broker.port}</pactbroker.port>
+                        <pact.provider.version>${project.version}</pact.provider.version>
+                        <pact.verifier.publishResults>true</pact.verifier.publishResults>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
