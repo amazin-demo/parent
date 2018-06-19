@@ -32,6 +32,8 @@
         <java.version>1.8</java.version>
 
         <mapstruct.version>1.2.0.Final</mapstruct.version>
+        <pact.version>3.5.18</pact.version>
+        <pact.scala.version>2.12</pact.scala.version>
     </properties>
 
     <dependencies>
@@ -66,6 +68,30 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-consumer-junit_${pact.scala.version}</artifactId>
+            <version>${pact.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-consumer-java8_${pact.scala.version}</artifactId>
+            <version>${pact.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-provider-junit_${pact.scala.version}</artifactId>
+            <version>${pact.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>au.com.dius</groupId>
+            <artifactId>pact-jvm-provider-spring_${pact.scala.version}</artifactId>
+            <version>${pact.version}</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -91,6 +117,24 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>au.com.dius</groupId>
+                <artifactId>pact-jvm-provider-maven_${pact.scala.version}</artifactId>
+                <version>${pact.version}</version>
+                <executions>
+                    <execution>
+                        <id>publish</id>
+                        <goals>
+                            <goal>publish</goal>
+                        </goals>
+                        <phase>install</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <pactBrokerUrl>http://localhost</pactBrokerUrl>
+                    <pactDirectory>target/pacts</pactDirectory>
                 </configuration>
             </plugin>
         </plugins>
